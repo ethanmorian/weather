@@ -70,12 +70,15 @@ class _LoginScreenState extends State<LoginScreen> {
               color: Colors.grey,
             ),
           ),
-          Text(
-            'Signup',
-            style: TextStyle(
-              fontSize: 15.sp,
-              color: Colors.blue,
-              fontWeight: FontWeight.bold,
+          GestureDetector(
+            onTap: widget.show,
+            child: Text(
+              'Sign up',
+              style: TextStyle(
+                fontSize: 15.sp,
+                color: Colors.blue,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
