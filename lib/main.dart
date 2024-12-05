@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:instagram/screen/login_screen.dart';
+import 'package:instagram/auth/auth_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       ),
       builder: (context, child) => const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(),
+        home: AuthScreen(),
       ),
     );
   }
