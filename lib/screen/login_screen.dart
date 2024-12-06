@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
-            "Don't have account?",
+            "Don't have account?  ",
             style: TextStyle(
               fontSize: 13.sp,
               color: Colors.grey,
@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
           GestureDetector(
             onTap: widget.show,
             child: Text(
-              'Sign up',
+              'Sign up ',
               style: TextStyle(
                 fontSize: 15.sp,
                 color: Colors.blue,
