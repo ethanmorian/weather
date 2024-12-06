@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram/data/firebase_service/firebase_auth.dart';
+import 'package:instagram/util/dialog.dart';
+import 'package:instagram/util/exception.dart';
 
 class SignupScreen extends StatefulWidget {
   final VoidCallback show;
@@ -42,7 +47,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 child: CircleAvatar(
               radius: 34.r,
               backgroundColor: Colors.grey.shade200,
-                  backgroundImage: AssetImage('assets/person.png'),
+              backgroundImage: AssetImage('assets/person.png'),
             )),
             SizedBox(height: 50.h),
             Textfield(
@@ -96,7 +101,7 @@ class _SignupScreenState extends State<SignupScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
-            "Don't have account?",
+            "Don't have account?  ",
             style: TextStyle(
               fontSize: 13.sp,
               color: Colors.grey,
@@ -105,7 +110,7 @@ class _SignupScreenState extends State<SignupScreen> {
           GestureDetector(
             onTap: widget.show,
             child: Text(
-              'Login',
+              'Login ',
               style: TextStyle(
                 fontSize: 15.sp,
                 color: Colors.blue,
@@ -121,20 +126,39 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget Singup() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
-      child: Container(
-        alignment: Alignment.center,
-        width: double.infinity,
-        height: 44.h,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        child: Text(
-          'Sign up',
-          style: TextStyle(
-            fontSize: 23.sp,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+      child: InkWell(
+        onTap: () async {
+          try {
+            await Authentication().Signup(
+              email: email.text,
+              password: password.text,
+              passwordConfirm: passwordConfirm.text,
+              username: username.text,
+              bio: bio.text,
+              profile: File(''),
+            );
+          } on Exceptions catch (e) {
+            dialogBuilder(
+              context,
+              e.message,
+            );
+          }
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 44.h,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+          child: Text(
+            'Sign up',
+            style: TextStyle(
+              fontSize: 23.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
