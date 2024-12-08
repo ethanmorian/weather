@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:instagram/auth/storage.dart';
+import 'package:instagram/data/firebase_service/firestore_user_manager.dart';
+import 'package:instagram/data/firebase_service/storage.dart';
 import 'package:instagram/util/exception.dart';
 
 class Authentication {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> Signup({
+  Future<void> signup({
     required String email,
     required String password,
     required String passwordConfirm,
@@ -15,7 +16,7 @@ class Authentication {
     required String bio,
     required File profile,
   }) async {
-    String URL;
+    String url;
     try {
       if (email.isNotEmpty &&
           password.isNotEmpty &&
@@ -28,13 +29,22 @@ class Authentication {
           );
 
           if (profile != File('')) {
-            URL = await StorageMethod().uploadImageToStorage(
+            url = await StorageMethod().uploadImageToStorage(
               'Profile',
               profile,
             );
           } else {
-            URL = '';
+            url = '';
           }
+
+          await FirestoreUserManager().createUser(
+            email: email,
+            username: username,
+            bio: bio,
+            profile: url == ''
+                ? 'https://firebasestorage.googleapis.com/v0/b/instagram-8a227.appspot.com/o/person.png?alt=media&token=c6fcbe9d-f502-4aa1-8b4b-ec37339e78ab'
+                : url,
+          );
         } else {
           throw Exceptions('password and confirm password should be same');
         }
