@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LoginScreen extends StatefulWidget {
+class Login extends StatefulWidget {
   final VoidCallback show;
 
-  const LoginScreen(this.show, {super.key});
+  const Login(this.show, {super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<Login> createState() => _LoginState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginState extends State<Login> {
   final email = TextEditingController();
-  FocusNode email_F = FocusNode();
+  FocusNode emailFocus = FocusNode();
   final password = TextEditingController();
-  FocusNode password_F = FocusNode();
+  FocusNode passwordFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -32,32 +32,32 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Image.asset('assets/logo.jpg'),
             ),
             SizedBox(height: 120.h),
-            Textfield(
+            textField(
               email,
               Icons.email,
               'Email',
-              email_F,
+              emailFocus,
             ),
             SizedBox(height: 15.h),
-            Textfield(
+            textField(
               password,
               Icons.lock,
               'Password',
-              password_F,
+              passwordFocus,
             ),
             SizedBox(height: 10.h),
-            Forget(),
+            forget(),
             SizedBox(height: 10.h),
-            Login(),
+            login(),
             SizedBox(height: 10.h),
-            Have()
+            have()
           ],
         ),
       ),
     );
   }
 
-  Widget Have() {
+  Widget have() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: Row(
@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget Login() {
+  Widget login() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Container(
@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget Forget() {
+  Widget forget() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: Text(
@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget Textfield(
+  Widget textField(
     TextEditingController controller,
     IconData icon,
     String type,
