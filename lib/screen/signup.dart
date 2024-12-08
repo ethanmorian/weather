@@ -5,27 +5,41 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram/data/firebase_service/firebase_auth.dart';
 import 'package:instagram/util/dialog.dart';
 import 'package:instagram/util/exception.dart';
+import 'package:instagram/util/imagepicker.dart';
 
-class SignupScreen extends StatefulWidget {
+class Signup extends StatefulWidget {
   final VoidCallback show;
 
-  const SignupScreen(this.show, {super.key});
+  const Signup(this.show, {super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<Signup> createState() => _SignupState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignupState extends State<Signup> {
   final email = TextEditingController();
-  FocusNode email_F = FocusNode();
-  final password = TextEditingController();
-  FocusNode password_F = FocusNode();
-  final bio = TextEditingController();
-  FocusNode bio_F = FocusNode();
+  FocusNode emailFocus = FocusNode();
   final username = TextEditingController();
-  FocusNode username_F = FocusNode();
+  FocusNode usernameFocus = FocusNode();
+  final bio = TextEditingController();
+  FocusNode bioFocus = FocusNode();
+  final password = TextEditingController();
+  FocusNode passwordFocus = FocusNode();
   final passwordConfirm = TextEditingController();
-  FocusNode passwordConfirm_F = FocusNode();
+  FocusNode passwordConfirmFocus = FocusNode();
+
+  File? _imageFile;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    email.dispose();
+    username.dispose();
+    bio.dispose();
+    password.dispose();
+    passwordConfirm.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,58 +57,79 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Image.asset('assets/logo.jpg'),
             ),
             SizedBox(height: 60.h),
-            Center(
-                child: CircleAvatar(
-              radius: 34.r,
-              backgroundColor: Colors.grey.shade200,
-              backgroundImage: AssetImage('assets/person.png'),
-            )),
+            InkWell(
+              onTap: () async {
+                File galleryImageFile =
+                    await CustomImagePicker().uploadImage('gallery');
+                setState(() {
+                  _imageFile = galleryImageFile;
+                });
+              },
+              child: CircleAvatar(
+                radius: 36.r,
+                backgroundColor: Colors.grey,
+                child: _imageFile == null
+                    ? CircleAvatar(
+                        radius: 34.r,
+                        backgroundImage: const AssetImage('assets/person.png'),
+                        backgroundColor: Colors.grey.shade200,
+                      )
+                    : CircleAvatar(
+                        radius: 34.r,
+                        backgroundImage: Image.file(
+                          _imageFile!,
+                          fit: BoxFit.cover,
+                        ).image,
+                        backgroundColor: Colors.grey.shade200,
+                      ),
+              ),
+            ),
             SizedBox(height: 50.h),
-            Textfield(
+            textField(
               email,
               Icons.email,
               'Email',
-              email_F,
+              emailFocus,
             ),
             SizedBox(height: 15.h),
-            Textfield(
+            textField(
               username,
               Icons.person,
               'Username',
-              password_F,
+              usernameFocus,
             ),
             SizedBox(height: 15.h),
-            Textfield(
+            textField(
               bio,
               Icons.abc,
               'bio',
-              bio_F,
+              bioFocus,
             ),
             SizedBox(height: 15.h),
-            Textfield(
+            textField(
               password,
               Icons.lock,
               'Password',
-              password_F,
+              passwordFocus,
             ),
             SizedBox(height: 15.h),
-            Textfield(
+            textField(
               passwordConfirm,
               Icons.lock,
               'PasswordConfirm',
-              passwordConfirm_F,
+              passwordConfirmFocus,
             ),
             SizedBox(height: 20.h),
-            Singup(),
+            signup(),
             SizedBox(height: 10.h),
-            Have()
+            have()
           ],
         ),
       ),
     );
   }
 
-  Widget Have() {
+  Widget have() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: Row(
@@ -123,13 +158,13 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget Singup() {
+  Widget signup() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: InkWell(
         onTap: () async {
           try {
-            await Authentication().Signup(
+            await Authentication().signup(
               email: email.text,
               password: password.text,
               passwordConfirm: passwordConfirm.text,
@@ -165,21 +200,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget Forget() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
-      child: Text(
-        'Forget your password?',
-        style: TextStyle(
-          fontSize: 13.sp,
-          color: Colors.blue,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-
-  Widget Textfield(
+  Widget textField(
     TextEditingController controller,
     IconData icon,
     String type,
