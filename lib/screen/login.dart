@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram/data/firebase_service/firebase_auth.dart';
 
 class Login extends StatefulWidget {
   final VoidCallback show;
@@ -89,20 +90,28 @@ class _LoginState extends State<Login> {
   Widget login() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
-      child: Container(
-        alignment: Alignment.center,
-        width: double.infinity,
-        height: 44.h,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        child: Text(
-          'Log in',
-          style: TextStyle(
-            fontSize: 23.sp,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+      child: InkWell(
+        onTap: () {
+          Authentication().login(
+            email: email.text,
+            password: password.text,
+          );
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 44.h,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+          child: Text(
+            'Log in',
+            style: TextStyle(
+              fontSize: 23.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
