@@ -8,6 +8,20 @@ import 'package:instagram/util/exception.dart';
 class Authentication {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  Future<void> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: email.trim(),
+        password: password.trim(),
+      );
+    } on FirebaseException catch (e) {
+      throw Exceptions(e.message.toString());
+    }
+  }
+
   Future<void> signup({
     required String email,
     required String password,
