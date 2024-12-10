@@ -42,7 +42,7 @@ class Authentication {
             password: password.trim(),
           );
 
-          if (profile != File('')) {
+          if (profile.path.isNotEmpty && profile.existsSync()) {
             url = await StorageMethod().uploadImageToStorage(
               'Profile',
               profile,
