@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/auth/auth.dart';
-import 'package:instagram/screen/home.dart';
+import 'package:instagram/widget/navigation.dart';
 
 class Main extends StatefulWidget {
   const Main({super.key});
@@ -18,7 +18,7 @@ class _MainState extends State<Main> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const Home();
+            return const Navigation();
           } else {
             return const Auth();
           }
