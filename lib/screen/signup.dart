@@ -46,83 +46,87 @@ class _SignupState extends State<Signup> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+        child: ListView(
           children: [
-            SizedBox(
-              width: 96.w,
-              height: 30.h,
+            Column(
+              children: [
+                SizedBox(
+                  width: 96.w,
+                  height: 30.h,
+                ),
+                Center(
+                  child: Image.asset('assets/logo.jpg'),
+                ),
+                SizedBox(height: 60.h),
+                InkWell(
+                  onTap: () async {
+                    File galleryImageFile =
+                        await CustomImagePicker().uploadImage('gallery');
+                    setState(() {
+                      _imageFile = galleryImageFile;
+                    });
+                  },
+                  child: CircleAvatar(
+                    radius: 36.r,
+                    backgroundColor: Colors.grey,
+                    child: _imageFile == null
+                        ? CircleAvatar(
+                            radius: 34.r,
+                            backgroundImage:
+                                const AssetImage('assets/person.png'),
+                            backgroundColor: Colors.grey.shade200,
+                          )
+                        : CircleAvatar(
+                            radius: 34.r,
+                            backgroundImage: Image.file(
+                              _imageFile!,
+                              fit: BoxFit.cover,
+                            ).image,
+                            backgroundColor: Colors.grey.shade200,
+                          ),
+                  ),
+                ),
+                SizedBox(height: 50.h),
+                textField(
+                  email,
+                  Icons.email,
+                  'Email',
+                  emailFocus,
+                ),
+                SizedBox(height: 15.h),
+                textField(
+                  username,
+                  Icons.person,
+                  'Username',
+                  usernameFocus,
+                ),
+                SizedBox(height: 15.h),
+                textField(
+                  bio,
+                  Icons.abc,
+                  'bio',
+                  bioFocus,
+                ),
+                SizedBox(height: 15.h),
+                textField(
+                  password,
+                  Icons.lock,
+                  'Password',
+                  passwordFocus,
+                ),
+                SizedBox(height: 15.h),
+                textField(
+                  passwordConfirm,
+                  Icons.lock,
+                  'PasswordConfirm',
+                  passwordConfirmFocus,
+                ),
+                SizedBox(height: 20.h),
+                signup(),
+                SizedBox(height: 10.h),
+                have()
+              ],
             ),
-            Center(
-              child: Image.asset('assets/logo.jpg'),
-            ),
-            SizedBox(height: 60.h),
-            InkWell(
-              onTap: () async {
-                File galleryImageFile =
-                    await CustomImagePicker().uploadImage('gallery');
-                setState(() {
-                  _imageFile = galleryImageFile;
-                });
-              },
-              child: CircleAvatar(
-                radius: 36.r,
-                backgroundColor: Colors.grey,
-                child: _imageFile == null
-                    ? CircleAvatar(
-                        radius: 34.r,
-                        backgroundImage: const AssetImage('assets/person.png'),
-                        backgroundColor: Colors.grey.shade200,
-                      )
-                    : CircleAvatar(
-                        radius: 34.r,
-                        backgroundImage: Image.file(
-                          _imageFile!,
-                          fit: BoxFit.cover,
-                        ).image,
-                        backgroundColor: Colors.grey.shade200,
-                      ),
-              ),
-            ),
-            SizedBox(height: 50.h),
-            textField(
-              email,
-              Icons.email,
-              'Email',
-              emailFocus,
-            ),
-            SizedBox(height: 15.h),
-            textField(
-              username,
-              Icons.person,
-              'Username',
-              usernameFocus,
-            ),
-            SizedBox(height: 15.h),
-            textField(
-              bio,
-              Icons.abc,
-              'bio',
-              bioFocus,
-            ),
-            SizedBox(height: 15.h),
-            textField(
-              password,
-              Icons.lock,
-              'Password',
-              passwordFocus,
-            ),
-            SizedBox(height: 15.h),
-            textField(
-              passwordConfirm,
-              Icons.lock,
-              'PasswordConfirm',
-              passwordConfirmFocus,
-            ),
-            SizedBox(height: 20.h),
-            signup(),
-            SizedBox(height: 10.h),
-            have()
           ],
         ),
       ),
@@ -170,7 +174,7 @@ class _SignupState extends State<Signup> {
               passwordConfirm: passwordConfirm.text,
               username: username.text,
               bio: bio.text,
-              profile: File(''),
+              profile: _imageFile ?? File(''),
             );
           } on Exceptions catch (e) {
             dialogBuilder(
