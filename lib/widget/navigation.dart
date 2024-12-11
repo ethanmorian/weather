@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram/screen/add.dart';
 import 'package:instagram/screen/explore.dart';
 import 'package:instagram/screen/home.dart';
 import 'package:instagram/screen/profile.dart';
@@ -50,20 +52,27 @@ class _NavigationState extends State<Navigation> {
           unselectedItemColor: Colors.grey,
           currentIndex: _currentIndex,
           onTap: navigationTapped,
-          items: const [
-            BottomNavigationBarItem(
+          items: [
+            const BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: '',
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.search),
               label: '',
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.camera),
               label: '',
             ),
             BottomNavigationBarItem(
+              icon: Image.asset(
+                'assets/instagram-reels-icon.png',
+                height: 20.h,
+              ),
+              label: '',
+            ),
+            const BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: '',
             ),
@@ -76,6 +85,7 @@ class _NavigationState extends State<Navigation> {
         children: const [
           Home(),
           Explore(),
+          Add(),
           Reels(),
           Profile(),
         ],
