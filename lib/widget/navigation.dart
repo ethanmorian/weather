@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:instagram/screen/explore.dart';
+import 'package:instagram/screen/home.dart';
+import 'package:instagram/screen/profile.dart';
+import 'package:instagram/screen/reels.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -69,7 +73,12 @@ class _NavigationState extends State<Navigation> {
       body: PageView(
         controller: pageController,
         onPageChanged: onPageChanged,
-        children: [],
+        children: const [
+          Home(),
+          Explore(),
+          Reels(),
+          Profile(),
+        ],
       ),
     );
   }
