@@ -1,4 +1,4 @@
-# Weather
+# android_weather
 
 A modern weather forecast app built using **Jetpack Compose**, designed with static screens and layout elements to showcase weather information through a clean and simple design.
 
